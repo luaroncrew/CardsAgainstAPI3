@@ -160,24 +160,20 @@ const contractABI = [
 ];
 
 const readPublicVariable = async (): Promise<number> => {
-  // Create a Web3 instance using the Infura provider
   const web3 = new Web3(providerUrl);
 
   // Create a contract instance
   const contract = new web3.eth.Contract(contractABI, contractAddress);
 
   // Call the contract function to read the public variable
-
   if (contract.methods.qrngUint256 === undefined) {
     throw new Error("qrngUint256 is undefined");
   }
 
   const method = contract.methods.qrngUint256();
-
   const response = await method.call();
 
-  // TODO: Convert the response to a number
-  return response;
+  return Math.round(Number(response)/10e65);
 };
 
 export const getRandomNumber = async () => {
