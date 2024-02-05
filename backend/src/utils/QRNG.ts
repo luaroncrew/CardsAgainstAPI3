@@ -182,4 +182,4 @@ async function readPublicVariable() {
 
 export async function getRandomNumber() {
   return await readPublicVariable();
-} // for test reasons
+}
