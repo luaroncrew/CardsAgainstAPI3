@@ -5,7 +5,7 @@ import { Static } from "@sinclair/typebox";
 import { MyRoute, GameSessionSchema } from "../../../fastify";
 
 import prisma from "../../../utils/prisma";
-import { getRandomNumber } from "../../../utils/pyth";
+import { getRandomNumber } from "../../../utils/QRNG";
 
 import sse from "../sse";
 import resolveSession from "../resolve";
@@ -24,7 +24,7 @@ const REDIS_HASH_KEY_LEN = 32;
 
 export const Handler: MyRoute<Interface> =
   (fastify) => async (request, response) => {
-    const seed = getRandomNumber();
+    const seed = await getRandomNumber();
 
     const session = await prisma.session.create({
       data: {
@@ -93,6 +93,6 @@ export const Handler: MyRoute<Interface> =
       deck: myDeck.id,
       session: session.id,
       invitation: invitation,
-      cards: myDeck.cards.map((card) => card.id),
+      cards: myDeck.cards.map((card: any) => card.id),
     });
   };
